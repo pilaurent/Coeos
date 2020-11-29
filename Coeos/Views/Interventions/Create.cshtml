@@ -1,0 +1,85 @@
+﻿@model Coeos.Models.ViewsModels.AddInterventionViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Intervention</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Intervention.Libelle" class="control-label"></label>
+                <input asp-for="Intervention.Libelle" class="form-control" />
+                <span asp-validation-for="Intervention.Libelle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Intervention.Description" class="control-label"></label>
+                <textarea asp-for="Intervention.Description" id="description" class="form-control summernote"></textarea>
+                <span asp-validation-for="Intervention.Description" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <label asp-for="Intervention.Dateintervention" class="control-label"></label>
+                <input asp-for="Intervention.Dateintervention" class="form-control" />
+                <span asp-validation-for="Intervention.Dateintervention" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Intervention.Encours" /> @Html.DisplayNameFor(model => model.Intervention.Encours)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Intervention.Fin" /> @Html.DisplayNameFor(model => model.Intervention.Fin)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Intervention.Escalade" class="control-label"></label>
+                <input asp-for="Intervention.Escalade" class="form-control" />
+                <span asp-validation-for="Intervention.Escalade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Intervention.Datecre" class="control-label"></label>
+                <input asp-for="Intervention.Datecre" class="form-control" />
+                <span asp-validation-for="Intervention.Datecre" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" onclick="return validateInput()" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts{
+@{ 
+    <partial name="_ValidationScriptsPartial"/>
+}
+<script>
+    function validateInput() {
+        if (document.getElementById("description").value == "") {
+            Swal.fire(
+                'Error!',
+                'Il faut une description!',
+                'error'
+            )
+            return false;
+        }
+        return true;
+    }
+    $(document).ready(function () {
+        $('.summernote').summernote({
+            height:250
+        });
+    });
+</script>
+}

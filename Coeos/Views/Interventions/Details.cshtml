@@ -1,0 +1,79 @@
+﻿@model Coeos.Models.ViewsModels.ViewInterventionViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Intervention</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Intervention.Libelle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Intervention.Libelle)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Intervention.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Intervention.Description)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Intervention.Dateintervention)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Intervention.Dateintervention)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Intervention.Encours)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Intervention.Encours)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Intervention.Fin)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Intervention.Fin)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Intervention.Escalade)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Intervention.Escalade)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Intervention.Datecre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Intervention.Datecre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Intervention.AgentInterventions)
+        </dt>
+        <dd class="col-sm-10">
+            <ul>
+                @foreach (var agentIntervention in Model.Items)
+                {
+                    <li>@agentIntervention.Agent.FullName</li>
+                }
+            </ul>
+            @if (Model.Items.Count == 0)
+            {
+                <p><i>Aucun agent dans cette intervention</i></p>
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <p>
+        <a asp-controller="Interventions" asp-action="AddItem" asp-route-id="@Model.Intervention.Id"> Ajouter un agent </a>
+    </p>
+    <a asp-action="Edit" asp-route-id="@Model.Intervention.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,85 @@
+﻿@model Coeos.Models.Intervention
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Edition</h2>
+        </div>
+
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Libelle" class="control-label"></label>
+                <input asp-for="Libelle" class="form-control" />
+                <span asp-validation-for="Libelle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control summernote"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Dateintervention" class="control-label"></label>
+                <input asp-for="Dateintervention" class="form-control" />
+                <span asp-validation-for="Dateintervention" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Encours" /> @Html.DisplayNameFor(model => model.Encours)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Fin" /> @Html.DisplayNameFor(model => model.Fin)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Escalade" class="control-label"></label>
+                <input asp-for="Escalade" class="form-control" />
+                <span asp-validation-for="Escalade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Datecre" class="control-label"></label>
+                <input asp-for="Datecre" class="form-control" />
+                <span asp-validation-for="Datecre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6 text-right">
+            <a asp-action="Index" class="btn btn-primary">Back to List</a>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+    $(document).ready(function () {
+        $('.summernote').summernote({
+            height:250
+        });
+    });
+    </script>
+}

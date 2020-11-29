@@ -1,0 +1,21 @@
+﻿@model Coeos.Models.ViewsModels.ViewInterventionViewModel
+
+@{
+    ViewData["Title"] = Model.Intervention.Libelle;
+}
+
+<ul>
+    @foreach (var agentIntervention in Model.Items)
+    {
+        <li>@agentIntervention.Agent.FullName</li>
+    }
+</ul>
+
+@if (Model.Items.Count == 0)
+{
+    <p><i>Aucun agent dans cette intervention</i></p>
+}
+
+<p>
+    <a asp-controller="Intervention" asp-action="AddItem" asp-route-id="@Model.Intervention.Id"> Ajouter un agent </a>
+</p>
