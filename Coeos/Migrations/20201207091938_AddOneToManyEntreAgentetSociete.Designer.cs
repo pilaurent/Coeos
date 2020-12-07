@@ -4,14 +4,16 @@ using Coeos.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Coeos.Migrations
 {
     [DbContext(typeof(CoeosContext))]
-    partial class CoeosContextModelSnapshot : ModelSnapshot
+    [Migration("20201207091938_AddOneToManyEntreAgentetSociete")]
+    partial class AddOneToManyEntreAgentetSociete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,7 +175,7 @@ namespace Coeos.Migrations
 
             modelBuilder.Entity("Coeos.Models.Societe", b =>
                 {
-                    b.Property<int>("SocieteId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -184,7 +186,7 @@ namespace Coeos.Migrations
                     b.Property<string>("Nom")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("SocieteId");
+                    b.HasKey("Id");
 
                     b.ToTable("Societe");
                 });

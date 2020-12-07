@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Coeos.Controllers
 {
-    [Authorize(Roles = WC.AdminRole)]
+    [Authorize(Roles = WC.AdminRole + "," + WC.SousTraitantRole)]
     public class InterventionsController : Controller
     {
         private readonly CoeosContext _context;
@@ -27,7 +27,7 @@ namespace Coeos.Controllers
         {
             var interventions = from m in _context.Intervention
                                 select m;
-
+            
             if (!String.IsNullOrEmpty(searchString))
             {
                 interventions = interventions.Where(s => s.Description.Contains(searchString));
@@ -102,7 +102,7 @@ namespace Coeos.Controllers
         {
             //ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "Id");
             AddInterventionViewModel addInterventionViewModel = new AddInterventionViewModel();
-
+            ViewBag.Categories = new SelectList(_context.Categorie, "Id", "Libelle");
             return View(addInterventionViewModel);
         }
 
@@ -124,7 +124,9 @@ namespace Coeos.Controllers
                     Encours = addInterventionViewModel.Intervention.Encours,
                     Fin = addInterventionViewModel.Intervention.Fin,
                     Photos = addInterventionViewModel.Intervention.Photos,
-                    Datecre = addInterventionViewModel.Intervention.Datecre
+                    Datecre = addInterventionViewModel.Intervention.Datecre,
+                    CategorieId = addInterventionViewModel.Intervention.Categorie.Id
+                    
                 };
                 _context.Add(newIntervention);
                 await _context.SaveChangesAsync();
@@ -142,6 +144,7 @@ namespace Coeos.Controllers
             }
 
             var intervention = await _context.Intervention.FindAsync(id);
+            ViewBag.CategorieId = new SelectList(_context.Categorie, "Id", "Libelle", intervention.CategorieId);
             if (intervention == null)
             {
                 return NotFound();

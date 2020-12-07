@@ -23,6 +23,13 @@
                 <input asp-for="Libelle" class="form-control" />
                 <span asp-validation-for="Libelle" class="text-danger"></span>
             </div>
+            <div class="editor.label">
+                @Html.LabelFor(model => model.Categorie.Id, "Categorie")
+            </div>
+            <div class="form-group">
+                @Html.DropDownList("CategorieId")
+                @Html.ValidationMessageFor(model => model.Categorie.Id)
+            </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <textarea asp-for="Description" class="form-control summernote"></textarea>

@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/coeos/databases/Coeos",
+      "type": "mssql.azure",
+      "connectionId": "CoeosContext",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}

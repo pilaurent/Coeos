@@ -35,7 +35,7 @@ namespace Coeos.Controllers
             }
 
             var societe = await _context.Societe
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.SocieteId == id);
             if (societe == null)
             {
                 return NotFound();
@@ -89,7 +89,7 @@ namespace Coeos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nom,Datecre")] Societe societe)
         {
-            if (id != societe.Id)
+            if (id != societe.SocieteId)
             {
                 return NotFound();
             }
@@ -103,7 +103,7 @@ namespace Coeos.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SocieteExists(societe.Id))
+                    if (!SocieteExists(societe.SocieteId))
                     {
                         return NotFound();
                     }
@@ -126,7 +126,7 @@ namespace Coeos.Controllers
             }
 
             var societe = await _context.Societe
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.SocieteId == id);
             if (societe == null)
             {
                 return NotFound();
@@ -148,7 +148,7 @@ namespace Coeos.Controllers
 
         private bool SocieteExists(int id)
         {
-            return _context.Societe.Any(e => e.Id == id);
+            return _context.Societe.Any(e => e.SocieteId == id);
         }
     }
 }

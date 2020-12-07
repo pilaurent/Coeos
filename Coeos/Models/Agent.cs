@@ -18,7 +18,10 @@ namespace Coeos.Models
         public DateTime Datecre { get; set; }
         public List<AgentIntervention> AgentInterventions { get; set; }
 
-        public string FullName
+        public int SocieteId { get; set; }
+
+        public virtual Societe Societe { get; set; }
+         public string FullName
         {
             get
             {

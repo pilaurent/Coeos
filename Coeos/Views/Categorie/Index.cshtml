@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Coeos.Models.Categorie>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Index</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-controller="Categorie" asp-action="Create" class="btn btn-primary">Create New</a>
+            <a asp-controller="Categorie" asp-action="Create" class="btn btn-primary">Export</a>
+        </div>
+        <form asp-controller="Categorie" asp-action="Index">
+            <p>
+                Title: <input type="text" name="SearchString">
+                <input type="submit" value="Filter" />
+            </p>
+        </form>
+    </div>
+</div>
+
+<p>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Libelle)
+            </th>
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Libelle)
+                </td>
+                
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> </a> |
+                    <a asp-action="Details" asp-route-id="@item.Id"> <i class="fas fa-users"></i> </a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i> </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

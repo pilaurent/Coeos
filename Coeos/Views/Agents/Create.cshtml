@@ -13,6 +13,10 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                @Html.DropDownListFor(model => model.SocieteId, new SelectList(ViewBag.Societe, "Value", "Text"))
+                @Html.ValidationMessageFor(model => model.SocieteId)
+            </div>
+            <div class="form-group">
                 <label asp-for="Nom" class="control-label"></label>
                 <input asp-for="Nom" class="form-control" />
                 <span asp-validation-for="Nom" class="text-danger"></span>

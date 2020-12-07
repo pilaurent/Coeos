@@ -21,7 +21,7 @@ namespace Coeos.Data
         public DbSet<Lieu> Lieu { get; set; }
         public DbSet<Photo> Photo { get; set; }
         public DbSet<Societe> Societe { get; set; }
-
+        public DbSet<Categorie> Categorie { get; set; }
         public DbSet<AgentIntervention> AgentInterventions { get; set; }
 
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
@@ -29,8 +29,14 @@ namespace Coeos.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<AgentIntervention>()
                 .HasKey(c => new { c.AgentID, c.InterventionID });
+
+           // modelBuilder.Entity<Categorie>()
+                //.HasMany(c => c.Interventions)
+             //   .WithOne(e => e.Categorie)
+         //       .IsRequired();
         }
 
 

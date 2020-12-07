@@ -30,5 +30,8 @@ namespace Coeos.Models
 
         [DataType(DataType.Date)]
         public DateTime Datecre { get; set; }
+
+        public int CategorieId { get; set; }
+        public virtual Categorie Categorie { get; set; }
     }
 }

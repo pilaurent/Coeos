@@ -27,21 +27,31 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Contenu
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Interventions" asp-action="Index">Intervention</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Agents" asp-action="Index">Agents</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Lieux" asp-action="Index">Lieux</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Societes" asp-action="Index">Societes</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Create Admin User</a>
-                            </div>
-                        </li>
+                        @if (User.IsInRole(WC.AdminRole) || User.IsInRole(WC.SousTraitantRole))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Contenu
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                    </ul>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Interventions" asp-action="Index">Intervention</a>
+
+                                    @if (User.IsInRole(WC.AdminRole))
+                                    {
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Categorie" asp-action="Index">Catégorie</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Agents" asp-action="Index">Agents</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Lieux" asp-action="Index">Lieux</a>
+
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Societes" asp-action="Index">Societes</a>
+
+                                        <div class="dropdown-divider"></div>
+                                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" onclick="return validateInput()">Create Admin User</a>
+                                    }
+                                </div>
+                            </li>
+                        }
+                        </ul>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -55,7 +65,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - Coeos - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - Coeos - <a asp-area="" asp-controller="Home" asp-action="Privacy">Politique de confidentialité</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -66,3 +76,14 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<script>
+    function validateInput() {
+        Swal.fire(
+            'Error!',
+            'Impossible de créer un compte pour le moment',
+            'error'
+        )
+        return false;
+    }
+</script>

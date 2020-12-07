@@ -12,5 +12,6 @@ namespace Coeos.Models.ViewsModels
         [Required]
         [Display(Name = "Nom intervention")]
         public Intervention Intervention { get; set; }
+
     }
 }

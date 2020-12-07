@@ -4,14 +4,16 @@ using Coeos.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Coeos.Migrations
 {
     [DbContext(typeof(CoeosContext))]
-    partial class CoeosContextModelSnapshot : ModelSnapshot
+    [Migration("20201207074133_ModifyOneToManyEntreInterventionEtCategorie")]
+    partial class ModifyOneToManyEntreInterventionEtCategorie
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +43,7 @@ namespace Coeos.Migrations
                     b.Property<string>("Prenom")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SocieteId")
+                    b.Property<int?>("SocieteId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -173,7 +175,7 @@ namespace Coeos.Migrations
 
             modelBuilder.Entity("Coeos.Models.Societe", b =>
                 {
-                    b.Property<int>("SocieteId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -184,7 +186,7 @@ namespace Coeos.Migrations
                     b.Property<string>("Nom")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("SocieteId");
+                    b.HasKey("Id");
 
                     b.ToTable("Societe");
                 });
@@ -403,13 +405,9 @@ namespace Coeos.Migrations
 
             modelBuilder.Entity("Coeos.Models.Agent", b =>
                 {
-                    b.HasOne("Coeos.Models.Societe", "Societe")
-                        .WithMany()
-                        .HasForeignKey("SocieteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Societe");
+                    b.HasOne("Coeos.Models.Societe", null)
+                        .WithMany("Agents")
+                        .HasForeignKey("SocieteId");
                 });
 
             modelBuilder.Entity("Coeos.Models.AgentIntervention", b =>
@@ -434,7 +432,7 @@ namespace Coeos.Migrations
             modelBuilder.Entity("Coeos.Models.Intervention", b =>
                 {
                     b.HasOne("Coeos.Models.Categorie", "Categorie")
-                        .WithMany()
+                        .WithMany("Interventions")
                         .HasForeignKey("CategorieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -512,6 +510,11 @@ namespace Coeos.Migrations
                     b.Navigation("AgentInterventions");
                 });
 
+            modelBuilder.Entity("Coeos.Models.Categorie", b =>
+                {
+                    b.Navigation("Interventions");
+                });
+
             modelBuilder.Entity("Coeos.Models.Intervention", b =>
                 {
                     b.Navigation("AgentInterventions");
@@ -519,6 +522,11 @@ namespace Coeos.Migrations
                     b.Navigation("Lieux");
 
                     b.Navigation("Photos");
+                });
+
+            modelBuilder.Entity("Coeos.Models.Societe", b =>
+                {
+                    b.Navigation("Agents");
                 });
 #pragma warning restore 612, 618
         }

@@ -75,6 +75,8 @@ namespace Coeos.Areas.Identity.Pages.Account
             {
                 await _roleManager.CreateAsync(new IdentityRole(WC.AdminRole));
                 await _roleManager.CreateAsync(new IdentityRole(WC.CustomerRole));
+                await _roleManager.CreateAsync(new IdentityRole(WC.SousTraitantRole));
+
             }
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();

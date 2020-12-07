@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Authorization;
 namespace Coeos.Controllers
 {
     [Authorize(Roles = WC.AdminRole)]
-    public class AgentsController : Controller
+    public class CategorieController : Controller
     {
         private readonly CoeosContext _context;
 
-        public AgentsController(CoeosContext context)
+        public CategorieController(CoeosContext context)
         {
             _context = context;
         }
@@ -24,7 +24,7 @@ namespace Coeos.Controllers
         // GET: Agents
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Agent.ToListAsync());
+            return View(await _context.Categorie.ToListAsync());
         }
 
         // GET: Agents/Details/5
@@ -35,21 +35,19 @@ namespace Coeos.Controllers
                 return NotFound();
             }
 
-            var agent = await _context.Agent
+            var categorie = await _context.Categorie
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (agent == null)
+            if (categorie == null)
             {
                 return NotFound();
             }
 
-            return View(agent);
+            return View(categorie);
         }
 
         // GET: Agents/Create
         public IActionResult Create()
         {
-            ViewBag.Societe = new SelectList(_context.Societe, "SocieteId", "Nom");
-
             return View();
         }
 
@@ -58,15 +56,15 @@ namespace Coeos.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nom,Prenom,Poste,Categorie,Datecre,SocieteId")] Agent agent)
+        public async Task<IActionResult> Create([Bind("Id,Libelle")] Categorie categorie)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(agent);
+                _context.Add(categorie);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(agent);
+            return View(categorie);
         }
 
         // GET: Agents/Edit/5
@@ -77,13 +75,12 @@ namespace Coeos.Controllers
                 return NotFound();
             }
 
-            var agent = await _context.Agent.FindAsync(id);
-            ViewBag.SocieteId = new SelectList(_context.Societe, "SocieteId", "Nom", agent.SocieteId);
-            if (agent == null)
+            var categorie = await _context.Categorie.FindAsync(id);
+            if (categorie == null)
             {
                 return NotFound();
             }
-            return View(agent);
+            return View(categorie);
         }
 
         // POST: Agents/Edit/5
@@ -91,9 +88,9 @@ namespace Coeos.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nom,Prenom,Poste,Categorie,Datecre")] Agent agent)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Libelle")] Categorie categorie)
         {
-            if (id != agent.Id)
+            if (id != categorie.Id)
             {
                 return NotFound();
             }
@@ -102,12 +99,12 @@ namespace Coeos.Controllers
             {
                 try
                 {
-                    _context.Update(agent);
+                    _context.Update(categorie);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AgentExists(agent.Id))
+                    if (!CategorieExists(categorie.Id))
                     {
                         return NotFound();
                     }
@@ -118,7 +115,7 @@ namespace Coeos.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(agent);
+            return View(categorie);
         }
 
         // GET: Agents/Delete/5
@@ -129,7 +126,7 @@ namespace Coeos.Controllers
                 return NotFound();
             }
 
-            var agent = await _context.Agent
+            var agent = await _context.Categorie
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (agent == null)
             {
@@ -144,15 +141,15 @@ namespace Coeos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var agent = await _context.Agent.FindAsync(id);
-            _context.Agent.Remove(agent);
+            var agent = await _context.Categorie.FindAsync(id);
+            _context.Categorie.Remove(agent);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AgentExists(int id)
+        private bool CategorieExists(int id)
         {
-            return _context.Agent.Any(e => e.Id == id);
+            return _context.Categorie.Any(e => e.Id == id);
         }
     }
 }

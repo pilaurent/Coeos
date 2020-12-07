@@ -8,13 +8,11 @@ namespace Coeos.Models
 {
     public class Societe
     {
-        public int Id { get; set; }
+        public int SocieteId { get; set; }
         public string Nom { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime Datecre { get; set; }
-
-        public List<Agent> Agents { get; set; }
 
     }
 }

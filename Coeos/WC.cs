@@ -8,6 +8,7 @@ namespace Coeos
     public static class WC
     {
         public const string AdminRole = "Admin";
+        public const string SousTraitantRole = "Soustraitant";
         public const string CustomerRole = "Customer";
     }
 }
