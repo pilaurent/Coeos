@@ -9,9 +9,17 @@ using Coeos.Data;
 using Coeos.Models;
 using Coeos.Models.ViewsModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
+using System.Text;
+using System.Net.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Net.Http.Headers;
 
 namespace Coeos.Controllers
 {
+    
+
     [Authorize(Roles = WC.AdminRole + "," + WC.SousTraitantRole)]
     public class InterventionsController : Controller
     {
@@ -106,6 +114,13 @@ namespace Coeos.Controllers
             return View(addInterventionViewModel);
         }
 
+        public class JsonContent : StringContent
+        {
+            public JsonContent(object obj) :
+                base(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json")
+            { }
+        }
+
         // POST: Interventions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -130,6 +145,42 @@ namespace Coeos.Controllers
                 };
                 _context.Add(newIntervention);
                 await _context.SaveChangesAsync();
+
+                /*HttpClient _httpClient = new HttpClient();
+                using (var content = new StringContent(JsonConvert.SerializeObject("{ 'message': 'Hello World SBE France','phones' : ['+33781881184']}"), System.Text.Encoding.UTF8, "application/json"))
+                {
+                    HttpResponseMessage result = _httpClient.PostAsync("http://20.74.17.50:5000/message", content).Result;
+                    if (result.Content.Equals("ok"))
+                        Console.WriteLine("Envoyé !");
+                    string returnValue = result.Content.ReadAsStringAsync().Result;
+                    throw new Exception($"Failed to POST data: ({result.StatusCode}): {returnValue}");
+                }
+                */
+
+                var customObj = "{ 'message': 'Hello World SBE France','phones' : ['+33781881184']}";
+                var changePassObj = JsonConvert.SerializeObject(customObj,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
+
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.BaseAddress = new Uri("http://20.74.17.50:5000");
+
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                   //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                    using (var response =
+                        await httpClient.PostAsync("/message", new StringContent(changePassObj, Encoding.UTF8, "application/json")))
+                    {
+                        using (var content = response.Content)
+                        {
+                            var result = await content.ReadAsStringAsync();
+                        }
+                    }
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(addInterventionViewModel);
