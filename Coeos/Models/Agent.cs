@@ -14,6 +14,8 @@ namespace Coeos.Models
         public string Poste { get; set; }
         public string Categorie { get; set; }
 
+        public string Phone { get; set; }
+
         [DataType(DataType.Date)]
         public DateTime Datecre { get; set; }
         public List<AgentIntervention> AgentInterventions { get; set; }

@@ -18,6 +18,13 @@ using System.Net.Http.Headers;
 
 namespace Coeos.Controllers
 {
+
+    class Sms
+    {
+        public string Message { get; set; }
+
+        public IList<String> Phones { get; set; } = new List<String>();
+    }
     
 
     [Authorize(Roles = WC.AdminRole + "," + WC.SousTraitantRole)]
@@ -157,29 +164,22 @@ namespace Coeos.Controllers
                 }
                 */
 
-                var customObj = "{ 'message': 'Hello World SBE France','phones' : ['+33781881184']}";
-                var changePassObj = JsonConvert.SerializeObject(customObj,
-                new JsonSerializerSettings
-                {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-                });
+                var sms = new Sms();
+                sms.Message = "Hello SBE France";
+                sms.Phones.Add("+33781881184");
 
-                using (var httpClient = new HttpClient())
-                {
-                    httpClient.BaseAddress = new Uri("http://20.74.17.50:5000");
+                var json = JsonConvert.SerializeObject(sms);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+                Console.WriteLine(await data.ReadAsStringAsync());
 
-                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                   //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var url = "http://20.74.17.50:5000/message";
+                using var client = new HttpClient();
 
-                    using (var response =
-                        await httpClient.PostAsync("/message", new StringContent(changePassObj, Encoding.UTF8, "application/json")))
-                    {
-                        using (var content = response.Content)
-                        {
-                            var result = await content.ReadAsStringAsync();
-                        }
-                    }
-                }
+                var response = await client.PostAsync(url, data);
+
+                string result = response.Content.ReadAsStringAsync().Result;
+                Console.WriteLine(result);
+
 
                 return RedirectToAction(nameof(Index));
             }
